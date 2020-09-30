@@ -32,7 +32,7 @@ As each fib function executes, its own activation record created within this sta
 
 So why is recursion bad for finding the Fibonacci of a number?
 
-•	High space complexity: The process of calling an entirely new function has a space complexity of O(n) because the function requires its own memory space. This can lead to a stack-overflow error which occurs when the stack memory is exceeded (most times this limit is set by the compiler/interpreter in the case of C and Python). This scenario is not good for our programs.
+•	High space complexity: The process of calling an entirely new function has a space complexity of O(n) (unlike the iterative implementation with O(1)) because the function requires its own memory space. This can lead to a stack-overflow error which occurs when the stack memory is exceeded (most times this limit is set by the compiler/interpreter in the case of C and Python). This scenario is not good for our programs.
 Note: A technique called Memoization can be used to optimize the recursive algorithm for space.
 
-•	Costly time complexity: Instantiating new functions also comes with a cost that increases the time complexity of the program. A new function creation corresponds to an increase in computational complexity. In fact, it has a time complexity (we can estimate computational complexity by analyzing time) of O(2n) which isn’t good for our programs too.
+•	Costly time complexity: Instantiating new functions also comes with a cost that increases the time complexity of the program. A new function creation corresponds to an increase in computational complexity. In fact, it has a time complexity (we can estimate computational complexity by analyzing time) of O(2^n) which isn’t good for our programs too.
