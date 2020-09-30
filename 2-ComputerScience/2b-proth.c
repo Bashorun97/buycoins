@@ -1,7 +1,7 @@
 /*
 Wed 30 Sep 2020 04:42:06 AM WAT 
 Author: Bashorun, E. (babaibeji)
-Written with love using VIM
+Written with love on VIM
 */
 
 
@@ -39,17 +39,8 @@ _Bool check_proth(int num)
 }
 
 
-int greatest_common_divisor(int a, int b)
-{
-  if (a == 0)
-    return b;
-  else
-    greatest_common_divisor(b % a, a);
-}
-
-
 // Using Jacobi symbol to generate appropriate 'a' values to minimize randomization
-int jacobi_symbol(struct Jacobi *j, int limit)
+void jacobi_symbol(struct Jacobi j, int limit)
 {
   // Randomly generate positive integers 'a' and odd integers 'n' where n>a. 
   int i;
@@ -81,44 +72,47 @@ int jacobi_symbol(struct Jacobi *j, int limit)
       a %= n;
     }
     if (n == -1)
-    {
-      j->A[i] = t;  
-    }
-    else
-      return 0;
+      j.A[i] = t;  
   }
 }
-
-/*
-void Display(struct Jacobi j, int limit)
-{
-  int i;
-  for (i=0; i<limit; i++)
-  {
-    printf("%d, ", j.A[i]);
-  }
-}
-*/
 
 
 // Using Proths Theorem, check if Proths number is prime
-_Bool check_proth_prime(struct Jacobi *j, int proth_number, int limit)
+_Bool check_proth_prime(struct Jacobi *j, int proth_number)
 {
   int i, a, b, exponent;
 
+  for (i=0; i<100; i++)
+  {
+    a = j->A[i];
+    exponent = (proth_number - 1)/2;
+    b = (int)pow(a, exponent);
+    if ((b % proth_number) == (-1 % proth_number))
+    {
+      printf("True");
+      return 1;
+      break;
+    }
+    i++;
+  }
+  return 0;
+  /*
   i = 0;
-  while (1)
+  while (!(b % proth_number == -1 % proth_number) && i<=100)
   {
     a = j->A[i];
     exponent = (proth_number - 1)/2;
     b = (int)pow(a, exponent);
     if (b % proth_number == -1 % proth_number)
     {
+      printf("True");
       return 1;
+      break;
     }
     i++;
   }
   return 0;
+  */
 }
 
 
@@ -136,19 +130,18 @@ int main()
   is_proth = check_proth(proth_value);
   if (is_proth == 1)
   {
-    jacobi_symbol(&j, range);
-    proth_prime_result = check_proth_prime(&j, proth_value, range);
+    jacobi_symbol(j, range);
+    proth_prime_result = check_proth_prime(&j, proth_value);
     if (proth_prime_result == 1)
     {
       printf("%d is a prime number and a proth number. \n", proth_value);
-    }
+    } 
     else if (proth_prime_result == 0)
     {
       printf("%d is a proth number \n", proth_value);
-      printf("But it isn\'t a prime number. \n");
+      printf("But it isn\'t a proth prime number. \n");
     }
   }
   else
     printf("Not a proth number neither is it a proth prime. \n");
-  //Display(j, range);
 }
